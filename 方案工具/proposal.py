@@ -13,6 +13,7 @@
 费用行：{"名称","说明"?,"单价": 数字|null|[低,高],"单位": "月"|"次"|"条"|…,"期数"?: 月数,"数量"?: 个数}
   · 有「期数」= 固定期限（开发期 3 个月）；单位「月」无期数 = 按月持续；其他单位 = 一次性/按量
   · 单价 null = 待定（不计入合计，方案里标出来）；单价 0 = 含在其他项内
+附件：[{"标题","说明"?,"条目":[...]}]，放交付范围、时间规划这类清单，排在正文最后。
 """
 
 from __future__ import annotations
@@ -155,6 +156,7 @@ def resolve(spec: dict, path: Path) -> dict:
         "怎么选": spec.get("怎么选", []),
         "费用相关说明": spec.get("费用相关说明", []),
         "附言": spec.get("附言", ""),
+        "附件": spec.get("附件", []),
     }
 
 
@@ -211,6 +213,12 @@ def render_md(q: dict) -> str:
             L.append("")
     if q["附言"]:
         L += ["## 附言", "", q["附言"], ""]
+    for att in q["附件"]:
+        L += [f"## {att['标题']}", ""]
+        if att.get("说明"):
+            L += [att["说明"], ""]
+        L += [f"- {t}" for t in att.get("条目", [])]
+        L.append("")
     L += ["---", "", f"{q['报价方'].get('名称', '')} · {q['日期'].isoformat()}", ""]
     return "\n".join(L)
 
@@ -294,6 +302,11 @@ def render_html(q: dict) -> str:
             H.append(f"<h2>{title}</h2><{tag}>" + "".join(f"<li>{e(t)}</li>" for t in q[key]) + f"</{tag}>")
     if q["附言"]:
         H.append(f"<h2>附言</h2><p class='note'>{e(q['附言'])}</p>")
+    for att in q["附件"]:
+        H.append(f"<h2>{e(att['标题'])}</h2>")
+        if att.get("说明"):
+            H.append(f"<p class='note'>{e(att['说明'])}</p>")
+        H.append("<ul>" + "".join(f"<li>{e(t)}</li>" for t in att.get("条目", [])) + "</ul>")
     H.append(f"<div class='foot'>{e(q['报价方'].get('名称', ''))} · {q['日期'].isoformat()}</div></body></html>")
     return "\n".join(H)
 
