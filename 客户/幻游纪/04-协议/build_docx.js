@@ -48,7 +48,7 @@ const toParty = (x) => x.replaceAll("贵方", "甲方").replaceAll("由我承担
 
 const 报价简版 = [
   { t: "h1", text: "幻游纪 · 报价" },
-  { t: "meta", text: `${DATE} · 报价方：杜炫明 Franklin Du · 有效期至 2026 年 9 月 14 日` },
+  { t: "meta", text: `${DATE} · 报价方：武汉穷游寰宇有限公司（联系人：杜炫明） · 有效期至 2026 年 9 月 14 日` },
   { t: "h2", text: "一、费用" },
   { t: "table", ...费用表 },
   { t: "h2", text: "二、付款" },
@@ -62,7 +62,7 @@ const 协议 = [
   { t: "h1", text: "幻游纪 合作备忘录" },
   { t: "meta", text: "2026 年 9 月" },
   { t: "p", text: "甲方（委托方）：____________________　联系人：__________" },
-  { t: "p", text: "乙方（服务方）：杜炫明（Franklin Du）" },
+  { t: "p", text: "乙方（服务方）：武汉穷游寰宇有限公司　联系人：杜炫明（Franklin Du）" },
   { t: "p", text: "乙方为甲方开发并维护「幻游纪」AI 换脸文旅电商应用（第一阶段为扫码打开的手机网页版 H5，资质到位后可迁移为微信小程序，以下简称「本软件」），合作期 6 个月，自签署日起算。双方就交付时间、付款与违约赔偿约定如下：" },
   { t: "h2", text: "一、交付时间" },
   { t: "ol", items: 交付时间.map(toParty) },
@@ -94,7 +94,7 @@ function toMd(doc) {
     else if (b.t === "table") {
       L.push("| " + b.rows[0].join(" | ") + " |", "|" + b.rows[0].map(() => "---").join("|") + "|");
       L.push(...b.rows.slice(1).map((r) => "| " + r.join(" | ") + " |"), "");
-    } else if (b.t === "sig") L.push("", "甲方（盖章/签字）：____________________　日期：__________", "", "乙方（签字）：____________________　日期：__________", "");
+    } else if (b.t === "sig") L.push("", "甲方（盖章/签字）：____________________　日期：__________", "", "乙方（盖章/签字）：____________________　日期：__________", "");
     else if (b.t === "pagebreak") L.push("---", "");
   }
   return L.join("\n");
@@ -134,7 +134,7 @@ function toDocx(doc) {
       children.push(new Paragraph({ spacing: { after: 120 }, children: [] }));
     } else if (b.t === "sig") {
       children.push(new Paragraph({ spacing: { before: 600, after: 300 }, children: [run("甲方（盖章/签字）：____________________　日期：__________")] }));
-      children.push(new Paragraph({ spacing: { after: 300 }, children: [run("乙方（签字）：____________________　日期：__________")] }));
+      children.push(new Paragraph({ spacing: { after: 300 }, children: [run("乙方（盖章/签字）：____________________　日期：__________")] }));
     } else if (b.t === "pagebreak") children.push(new Paragraph({ children: [new PageBreak()] }));
   }
   return new Document({
