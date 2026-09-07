@@ -85,7 +85,7 @@ def calc_option(opt: dict, cur: str) -> dict:
             text = money(price, cur) + (f"/{unit}" if unit else "") + (f" × {periods} 个{unit}" if periods else "")
             subtotal = None
         elif qty == 0:
-            text, subtotal = f"{money(price, cur)}/{unit}（本次 0）", 0
+            text, subtotal = f"{money(price, cur)}/{unit}（按需，另计）", 0
         elif periods:
             subtotal = price * qty * periods
             text = f"{money(price, cur)}/{unit} × {periods} 个{unit}" + (f" × {qty}" if qty > 1 else "") + f" = {money(subtotal, cur)}"
