@@ -20,7 +20,7 @@
 | `客户/<客户>/01-需求/` | 对方发来的需求文档原文 + 我方「需求摘要」 |
 | `客户/<客户>/02-交流纪要/` | 每次沟通一个文件，没录音就靠它 |
 | `客户/<客户>/03-方案/` | `<客户>-合作方案-vN.json` 和生成的 .md/.html |
-| `客户/<客户>/04-协议/` | 简版报价、备忘录/协议的 Word 版：`build_docx.js` 是源，跑一次出 .docx + .md（需 `NODE_PATH` 指向装了 docx 的 node_modules） |
+| `客户/<客户>/04-协议/` | 简版报价、备忘录的 Word 版（幻游纪：`幻游纪-报价-简版.docx`、`幻游纪-合作备忘录.docx`，2026-09-07 定稿待 Franklin 发）：`build_docx.js` 是源，跑一次出 .docx + .md（需 `NODE_PATH` 指向装了 docx 的 node_modules） |
 | `台账.md` | `proposal.py ledger --write` 生成的全部方案一览 |
 
 ## 怎么用
